@@ -1,0 +1,345 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D3A959BE-4709-40DB-B892-F7149508FADA}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Viva_vegan</RootNamespace>
+    <AssemblyName>Viva_vegan</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AxShockwaveFlashObjects, Version=1.0.0.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Windows.Forms, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="FontAwesome.Sharp, Version=5.14.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\FontAwesome.Sharp.5.14.0\lib\net472\FontAwesome.Sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="LiveCharts, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>packages\LiveCharts.0.9.7\lib\net45\LiveCharts.dll</HintPath>
+    </Reference>
+    <Reference Include="LiveCharts.WinForms, Version=0.9.7.1, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>packages\LiveCharts.WinForms.0.9.7.1\lib\net45\LiveCharts.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="LiveCharts.Wpf, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>packages\LiveCharts.Wpf.0.9.7\lib\net45\LiveCharts.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="MetroFramework, Version=1.2.0.3, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <HintPath>packages\MetroFramework.RunTime.1.2.0.3\lib\net40-Client\MetroFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="MetroFramework.Design, Version=1.2.0.3, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <HintPath>packages\MetroFramework.Design.1.2.0.3\lib\net40\MetroFramework.Design.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="MetroFramework.Fonts, Version=1.2.0.3, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <HintPath>packages\MetroFramework.Fonts.1.2.0.3\lib\net40\MetroFramework.Fonts.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.SqlServer.Types.14.0.314.76\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
+    </Reference>
+    <Reference Include="MindFusion.Charting, Version=4.1.2.450, Culture=neutral, PublicKeyToken=dd7449df9ffcc455" />
+    <Reference Include="MindFusion.Charting.WinForms, Version=4.1.2.450, Culture=neutral, PublicKeyToken=dd7449df9ffcc455, processorArchitecture=MSIL" />
+    <Reference Include="MindFusion.Common, Version=1.3.3.451, Culture=neutral, PublicKeyToken=dd7449df9ffcc455" />
+    <Reference Include="MindFusion.Licensing, Version=1.0.4.38034, Culture=neutral, PublicKeyToken=9d02e21d957ddaef" />
+    <Reference Include="MindFusion.Pdf, Version=1.3.2.451, Culture=neutral, PublicKeyToken=dd7449df9ffcc455" />
+    <Reference Include="MindFusion.Svg, Version=1.2.2.451, Culture=neutral, PublicKeyToken=dd7449df9ffcc455" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="XanderUI">
+      <HintPath>packages\XanderUI\XanderUI.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ClassCSharp\Ban.cs" />
+    <Compile Include="ClassCSharp\BanDangHoatDong.cs" />
+    <Compile Include="ClassCSharp\BoPhan.cs" />
+    <Compile Include="ClassCSharp\ChiTietHoaDon.cs" />
+    <Compile Include="ClassCSharp\ChucVu.cs" />
+    <Compile Include="ClassCSharp\ConnectDataBase.cs" />
+    <Compile Include="ClassCSharp\DoanhThuClass.cs" />
+    <Compile Include="ClassCSharp\HoaDon.cs" />
+    <Compile Include="ClassCSharp\KHACHHANG.cs" />
+    <Compile Include="ClassCSharp\KhuVuc.cs" />
+    <Compile Include="ClassCSharp\MonAn.cs" />
+    <Compile Include="ClassCSharp\NhanVien.cs" />
+    <Compile Include="ClassCSharp\OptimizedPerformance.cs" />
+    <Compile Include="ClassCSharp\QuyenHan.cs" />
+    <Compile Include="ClassCSharp\ThongBaoDBChange.cs" />
+    <Compile Include="ClassCSharp\ThucUong.cs" />
+    <Compile Include="ClassCSharp\User.cs" />
+    <Compile Include="Dashboard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dashboard.Designer.cs">
+      <DependentUpon>Dashboard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormDashboard\BangDieuKhien.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormDashboard\BangDieuKhien.Designer.cs">
+      <DependentUpon>BangDieuKhien.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormDashboard\BaoCaoChild\BestSellerDrink.cs" />
+    <Compile Include="FormDashboard\BaoCaoChild\BestSellerFood.cs" />
+    <Compile Include="FormDashboard\BaoCaoChild\HDreport.cs">
+      <DependentUpon>HDreport.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FormDashboard\BaoCaoChild\PrintReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormDashboard\BaoCaoChild\PrintReport.Designer.cs">
+      <DependentUpon>PrintReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormDashboard\DoanhThu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormDashboard\DoanhThu.Designer.cs">
+      <DependentUpon>DoanhThu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormDashboard\GoiMon.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormDashboard\GoiMon.Designer.cs">
+      <DependentUpon>GoiMon.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormDashboard\GoiMonChild\ChiTietHoaDonBill.cs" />
+    <Compile Include="FormDashboard\GoiMonChild\FormBan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormDashboard\GoiMonChild\FormBan.Designer.cs">
+      <DependentUpon>FormBan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormDashboard\GoiMonChild\FormPrint.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormDashboard\GoiMonChild\FormPrint.Designer.cs">
+      <DependentUpon>FormPrint.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormDashboard\GoiMonChild\HoaDonReport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HoaDonReport.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FormDashboard\HoatDongGanDay.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormDashboard\HoatDongGanDay.Designer.cs">
+      <DependentUpon>HoatDongGanDay.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormDashboard\BaoCao.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormDashboard\BaoCao.Designer.cs">
+      <DependentUpon>BaoCao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormDashboard\ThongTin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormDashboard\ThongTin.Designer.cs">
+      <DependentUpon>ThongTin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Greeting.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Greeting.Designer.cs">
+      <DependentUpon>Greeting.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormHienThiChiTiet\HienThiChiTiet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormHienThiChiTiet\HienThiChiTiet.Designer.cs">
+      <DependentUpon>HienThiChiTiet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Login.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Login.Designer.cs">
+      <DependentUpon>Login.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Register.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Register.Designer.cs">
+      <DependentUpon>Register.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SqlServerTypes\Loader.cs" />
+    <EmbeddedResource Include="Dashboard.resx">
+      <DependentUpon>Dashboard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormDashboard\BangDieuKhien.resx">
+      <DependentUpon>BangDieuKhien.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormDashboard\BaoCaoChild\HDreport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>HDreport.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormDashboard\BaoCaoChild\PrintReport.resx">
+      <DependentUpon>PrintReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormDashboard\DoanhThu.resx">
+      <DependentUpon>DoanhThu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormDashboard\GoiMon.resx">
+      <DependentUpon>GoiMon.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormDashboard\GoiMonChild\FormBan.resx">
+      <DependentUpon>FormBan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormDashboard\GoiMonChild\FormPrint.resx">
+      <DependentUpon>FormPrint.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormDashboard\GoiMonChild\HoaDonReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>HoaDonReport.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormDashboard\HoatDongGanDay.resx">
+      <DependentUpon>HoatDongGanDay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormDashboard\BaoCao.resx">
+      <DependentUpon>BaoCao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormDashboard\ThongTin.resx">
+      <DependentUpon>ThongTin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Greeting.resx">
+      <DependentUpon>Greeting.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormHienThiChiTiet\HienThiChiTiet.resx">
+      <DependentUpon>HienThiChiTiet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Login.resx">
+      <DependentUpon>Login.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Register.resx">
+      <DependentUpon>Register.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logo_transparent.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\banner_login.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\banner-dashboard.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\banner-dashboard1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ClassCSharp\.README.txt" />
+    <Content Include="FormDashboard\.README.txt" />
+    <Content Include="MetroFramework.txt" />
+    <Content Include=".README.txt" />
+    <None Include="Resources\icons8_cash_125px.png" />
+    <None Include="Resources\icons8_update_125px.png" />
+    <None Include="Resources\bugger-chay.jpg" />
+    <None Include="Resources\transparent-bugger-chay.jpg" />
+    <None Include="Resources\transparent-bugger-chay.png" />
+    <None Include="Resources\logo-transparent2.png" />
+    <None Include="Resources\icons8_doc_26px.png" />
+    <None Include="Resources\icons8_doc_52px.png" />
+    <None Include="Resources\icons8_doc_16px.png" />
+    <None Include="Resources\icons8_doc_32px.png" />
+    <None Include="Resources\loading.gif" />
+    <None Include="Resources\Plant.gif" />
+    <None Include="Resources\Plant-spinner.gif" />
+    <Content Include="SqlServerTypes\readme.htm" />
+    <Content Include="SqlServerTypes\x64\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x64\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Resources\icons8_trash_128px.png" />
+    <None Include="Resources\ban-trong.png" />
+    <None Include="Resources\ban-dang-dung.png" />
+    <None Include="Resources\an1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ClassCSharp\FactoryFunction\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
