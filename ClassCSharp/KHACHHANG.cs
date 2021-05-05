@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Viva_vegan.ClassCSharp
 {
-    class KHACHHANG
+    class KhachHang
     {
         private string makh;
         private string tenkh;
@@ -30,7 +31,7 @@ namespace Viva_vegan.ClassCSharp
         public decimal Tiendatieu { get => tiendatieu; set => tiendatieu = value; }
         public string Maloaikh { get => maloaikh; set => maloaikh = value; }
 
-        public KHACHHANG(string makh, string tenkh, string dienthoaikh, string diachikh, string sotaikhoankh, DateTime ngaysinhkh, string emailkh, long diem, decimal tiendatieu, string maloaikh)
+        public KhachHang(string makh, string tenkh, string dienthoaikh, string diachikh, string sotaikhoankh, DateTime ngaysinhkh, string emailkh, long diem, decimal tiendatieu, string maloaikh)
         {
             this.Makh = makh;
             this.Tenkh = tenkh;
@@ -44,7 +45,7 @@ namespace Viva_vegan.ClassCSharp
             this.Maloaikh = maloaikh;
         }
 
-        public KHACHHANG()
+        public KhachHang()
         {
             this.Makh = "";
             this.Tenkh = "";
@@ -58,7 +59,49 @@ namespace Viva_vegan.ClassCSharp
             this.Maloaikh = "";
         }
         #region Method
+        public async Task<string> taoMaKh ()
+        {
+            string query = "select makh from khachhang";
+            string result = "";
+            int max = 0;
+            DataTable table = await ConnectDataBase.SessionConnect.executeQueryAsync(query);
+            foreach (DataRow row in table.Rows)
+            {
+                string makh = row["MAKH"].ToString();
+                int i = int.Parse(makh.Substring(2, makh.Length - 2));
+                if (max <= i)
+                {
+                    max = i;
+                }
+            }
+            return "KH" + (max + 1).ToString();
+        }
+        public async Task<DataTable> loadTableKhachHang (string input, String timTheo =null)
+        {
+            String query = "select * from khachhang";
+            if (String.IsNullOrWhiteSpace(input))
+            {
+                query = "select * from khachhang";
+                DataTable table = await ConnectDataBase.SessionConnect.executeQueryAsync(query);
+                return table;
+            }
+            else
+            {
 
+                if (timTheo.Contains("Tên"))
+                {
+                    query = "select * from khachhang where tenkh like N'%" +
+                    input.Trim() + "%'";
+                }
+                else if (timTheo.Contains("Mã"))
+                {
+                    query = "select * from khachhang where makh like '%" +
+                    input.Trim() + "%'";
+                }
+                DataTable table = await ConnectDataBase.SessionConnect.executeQueryAsync(query);
+                return table;
+            }
+        }
         #endregion
 
     }

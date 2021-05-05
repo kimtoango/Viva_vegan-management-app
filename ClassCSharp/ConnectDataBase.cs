@@ -13,7 +13,10 @@ namespace Viva_vegan.ClassCSharp
         private String stringConnect;
         private static String path = Path.GetFullPath(Environment.CurrentDirectory);
         private static String nameDB = "QLNH30-08.mdf";
-        private String stringAvailable = @"Data Source=(Localdb)\MSSQLLocalDB;AttachDbFilename=" + path+@"\"+ nameDB + ";Integrated Security=True";
+        //private String stringAvailable = @"Data Source=(Localdb)\MSSQLLocalDB;AttachDbFilename=" + path+@"\"+ nameDB + ";Integrated Security=True";
+
+        private String stringAvailable = @"Data Source=DESKTOP-S418B85\SQLEXPRESS;Initial Catalog=QLNH30-08;Integrated Security=True";
+
         private static ConnectDataBase sessionConnect;
         public static ConnectDataBase SessionConnect
         {
@@ -53,7 +56,6 @@ namespace Viva_vegan.ClassCSharp
 
                 if (paramaters != null)
                 {
-
                     String[] listParams = query.Split(' ');
                     cmd = new SqlCommand(listParams[0], conn);
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -185,6 +187,33 @@ namespace Viva_vegan.ClassCSharp
                     }
                 }
                 data = cmd.ExecuteScalar();
+                conn.Close();
+            }
+            return data;
+        }
+        public async Task<object> executeScalarAsync(String query, Object[] paramaters = null) //select count (*)
+        {
+            object data = 0;
+            using (SqlConnection conn = new SqlConnection(stringAvailable))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(query, conn);
+                int i = 0;
+                if (paramaters != null)
+                {
+                    String[] listParams = query.Split(' ');
+                    cmd = new SqlCommand(listParams[0], conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    foreach (String item in listParams)
+                    {
+                        if (item.Contains("@"))
+                        {
+                            cmd.Parameters.AddWithValue(item, paramaters[i]);
+                            i++;
+                        }
+                    }
+                }
+                await Task.Run(() => data = cmd.ExecuteScalar());
                 conn.Close();
             }
             return data;

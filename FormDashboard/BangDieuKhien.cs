@@ -36,20 +36,24 @@ namespace Viva_vegan.FormDashboard
             // tab bàn
             loadKhuvuc();
             loadBan();
-            var format = (NumberFormatInfo)NumberFormatInfo.CurrentInfo.Clone();
-            format.CurrencySymbol = "VNĐ ";
-            dgvthucuong.Columns["giabanthucuong"].DefaultCellStyle.FormatProvider = format;
-            dgvthucuong.Columns["giabanthucuong"].DefaultCellStyle.Format = "c0";
-            dgvmonan.Columns["giaban"].DefaultCellStyle.FormatProvider = format;
-            dgvmonan.Columns["giaban"].DefaultCellStyle.Format = "c0";
+            OptimizedPerformance.formatCurrency(dgvKhachhang, "kh");
+            OptimizedPerformance.formatCurrency(dgvmonan, "ma");
+            OptimizedPerformance.formatCurrency(dgvthucuong, "tu");
+            //---------------------------------
             OptimizedPerformance.DoubleBuffered(dgvban, true);
             OptimizedPerformance.DoubleBuffered(dgvmonan, true);
             OptimizedPerformance.DoubleBuffered(dgvthucuong, true);
             OptimizedPerformance.DoubleBuffered(dgvnhanvien, true);
+            OptimizedPerformance.DoubleBuffered(dgvKhachhang, true);
+
         }
         #region Events
         private void XuiButton1_Click(object sender, EventArgs e)
         {
+            if (!File.Exists("Staff_history.txt")) // If file does not exists
+            {
+                File.Create("Staff_history.txt").Close(); // Create file
+            }
             System.Diagnostics.Process.Start(@".\Staff_history.txt");
             ThuNhoFormCha();
         }
@@ -262,21 +266,11 @@ namespace Viva_vegan.FormDashboard
         {
             picBoxLoadingStaff.Show();
             picBoxLoadingStaff.Update();
-            dgvnhanvien.DataSource = await objNhanVien.loadTableNhanVien(input, cbbtimtheonhanvien.Text);
+            dgvnhanvien.Rows.Clear();
+            dgvnhanvien.Refresh();
+            DataTable table = await objNhanVien.loadTableNhanVien(input, cbbtimtheonhanvien.Text);
+            OptimizedPerformance.fromTableToDgv(table, dgvnhanvien, "nhanvien");
             picBoxLoadingStaff.Hide();
-            //Format datagridview of staff
-            for (int i = 0; i < 10; i++)
-            {
-                if (i != 6)
-                {
-                    dgvnhanvien.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;//mã
-
-                }
-                else
-                {
-                    dgvnhanvien.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;//mã
-                }
-            }
         }
         #endregion
         #region Tab Bàn
@@ -293,9 +287,7 @@ namespace Viva_vegan.FormDashboard
         }
         private void Btnclear_Click(object sender, EventArgs e)
         {
-            txtmaban.Text = "";
-            txttenban.Text = "";
-            cbbkhuvuc.Text = "";
+            OptimizedPerformance.ClearAllText(tabControl1);
         }
         private void Btnthem_Click(object sender, EventArgs e)
         {
@@ -377,10 +369,9 @@ namespace Viva_vegan.FormDashboard
         #endregion Tab Bàn
         //------------------------
         #region Tab Nhân Viên
-        private void Btnthemnhanvien_Click(object sender, EventArgs e)
+        private async void Btnthemnhanvien_Click(object sender, EventArgs e)
         {
-            saveHistory("them");
-            String manv = new NhanVien().taoManv();
+            String manv =await new NhanVien().taoManv();
             String macv = cbbmacv.Text;
             String mabp = cbbmabp.Text;
             String tennv = txttennv.Text;
@@ -399,6 +390,7 @@ namespace Viva_vegan.FormDashboard
             }
             else
             {
+                OptimizedPerformance.SaveHistory(pnNhanvien, "them", dgvnhanvien);
                 String query = "themnhanvien @MANV @MACV @MABP @TENNV @DIENTHOAINV @EMAILNV @DIACHINV @SOTAIKHOANNV @TENDANGNHAP @MATKHAU @NGAYVAOLAM @REQUEST";
                 int res = ConnectDataBase.SessionConnect.executeNonQuery(query, new object[]
                 {
@@ -426,24 +418,26 @@ namespace Viva_vegan.FormDashboard
         }
         private void Dgvnhanvien_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex != -1)
+            if (e.RowIndex != -1 && e.RowIndex < dgvnhanvien.RowCount-1)
             {
                 DataGridViewRow row = dgvnhanvien.Rows[e.RowIndex];
+                textBox3.Text= row.Cells["manv"].Value.ToString();
+                txbngayvaolam.Text = row.Cells["ngayvaolamnv"].Value.ToString();
                 cbbmacv.Text = row.Cells["macv"].Value.ToString();
                 cbbmabp.Text = row.Cells["mabp"].Value.ToString();
                 txttennv.Text = row.Cells["tennv"].Value.ToString();
                 txtemail.Text = row.Cells["emailnv"].Value.ToString();
                 txtdiachi.Text = row.Cells["diachinv"].Value.ToString();
-                txtsotk.Text = row.Cells["sotaikhoannv"].Value.ToString();
-                txttendangnhap.Text = row.Cells["tendangnhap"].Value.ToString();
-                txtmatkhau.Text = row.Cells["matkhau"].Value.ToString();
+                txtsotk.Text = row.Cells["sotaikhoan"].Value.ToString();
+                txttendangnhap.Text = row.Cells["tendangnhapnv"].Value.ToString();
+                txtmatkhau.Text = row.Cells["matkhaunv"].Value.ToString();
                 txtsodt.Text = row.Cells["dienthoainv"].Value.ToString();
                 dgvnhanvien.Tag = row.Cells["manv"].Value.ToString();
             }
         }
         private void IconButton1_Click(object sender, EventArgs e)  /// button xoa nhan vien
         {
-            saveHistory("xoa");
+            OptimizedPerformance.SaveHistory(pnNhanvien,"xoa",dgvnhanvien);
             String manv = dgvnhanvien.Tag.ToString();
             String query = "themnhanvien @manv @request";
             int res = ConnectDataBase.SessionConnect.executeNonQuery(query, new object[]
@@ -459,7 +453,7 @@ namespace Viva_vegan.FormDashboard
         }
         private void Btnsuanhanvien_Click(object sender, EventArgs e)
         {
-            saveHistory("sua");
+            OptimizedPerformance.SaveHistory(pnNhanvien,"sua",dgvnhanvien);
             String manv = dgvnhanvien.Tag.ToString();
             String macv = cbbmacv.Text;
             String mabp = cbbmabp.Text;
@@ -493,15 +487,7 @@ namespace Viva_vegan.FormDashboard
         }
         private void Btncleartextnhanvien_Click(object sender, EventArgs e)
         {
-            cbbmacv.Text = "";
-            cbbmabp.Text = "";
-            txttennv.Text = "";
-            txtemail.Text = "";
-            txtdiachi.Text = "";
-            txtsotk.Text = "";
-            txttendangnhap.Text = "";
-            txtmatkhau.Text = "";
-            txtsodt.Text = "";
+            OptimizedPerformance.ClearAllText(tabControl1);
         }
         #endregion Tab Nhân Viên
         //------------------------
@@ -617,13 +603,8 @@ namespace Viva_vegan.FormDashboard
         }
         private void Btncleartextmonan_Click(object sender, EventArgs e)
         {
-            txtmamon.Clear();
-            txttenmon.Clear();
-            txtgiaban.Clear();
-            rtbmota.Clear();
-            cbbdvt.Text = "";
-            imgboxxemtruoc.Image = null;
             lblpath.Text = "";
+            OptimizedPerformance.ClearAllText(tabControl1);
         }
         private void Btnthemmon_Click(object sender, EventArgs e)
         {
@@ -720,13 +701,8 @@ namespace Viva_vegan.FormDashboard
         }
         private void Btncleartextthucuong_Click(object sender, EventArgs e)
         {
-            txtmathucuong.Clear();
-            txttenthucuong.Clear();
-            txtgiathucuong.Clear();
-            rtbmotathucuong.Clear();
-            cbbdvtthucuong.Text = "";
-            pbthucuong.Image = null;
             lblpaththucuong.Text = "";
+            OptimizedPerformance.ClearAllText(tabControl1);
         }
         private void Btnthemthucuong_Click(object sender, EventArgs e)
         {
@@ -931,11 +907,17 @@ namespace Viva_vegan.FormDashboard
                     }
                 case 4:
                     {
-
+                        if (!loadKhachHangIsCalled)
+                        {
+                            loadKhachHang("");
+                            loadKhachHangIsCalled = true;
+                        }
                         break;
                     }
             }
         }
+
+
 
         private void BtnReloadMonan_Click(object sender, EventArgs e)
         {
@@ -1005,7 +987,93 @@ namespace Viva_vegan.FormDashboard
         }
         //--------------------------------------------
         #region Khách hàng
-
+        public async void loadKhachHang(string input)
+        {
+            picBoxKhachHang.Show();
+            picBoxKhachHang.Update();
+            dgvKhachhang.Rows.Clear();
+            dgvKhachhang.Refresh();
+            DataTable table = await new KhachHang().loadTableKhachHang(input, cbbtimtheokh.Text);
+            OptimizedPerformance.fromTableToDgv(table, dgvKhachhang, "khachhang");
+            picBoxKhachHang.Hide();
+        }
         #endregion End khách hàng
+
+        private void IconButton2_Click(object sender, EventArgs e)
+        {
+            loadKhachHang("");
+        }
+
+        private void DgvKhachhang_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex != -1 && e.RowIndex < dgvKhachhang.RowCount - 1)
+            {
+                DataGridViewRow row = dgvKhachhang.Rows[e.RowIndex];
+                txbmakh.Text = row.Cells["makh"].Value.ToString();
+                txbloaikh.Text = dgvKhachhang.Rows[e.RowIndex].Tag.ToString();
+                txbtenkh.Text = row.Cells["tenkh"].Value.ToString();
+                txbdienthoaikh.Text = row.Cells["dienthoaikh"].Value.ToString();
+                txbdiachikh.Text = row.Cells["diachikh"].Value.ToString();
+                dpngaysinhkh.Value = DateTime.Parse( row.Cells["ngaysinhkh"].Value.ToString());
+                txbemailkh.Text = row.Cells["emailkh"].Value.ToString();
+                txbdiemkh.Text = row.Cells["diemkh"].Value.ToString();
+                txbtiendatieukh.Text = row.Cells["tiendatieukh"].Value.ToString();
+            }
+        }
+
+        private void IconButton3_Click(object sender, EventArgs e)
+        {
+            OptimizedPerformance.ClearAllText(this);
+        }
+
+        private async void BtnTimKhachHang_Click(object sender, EventArgs e)
+        {
+            loadKhachHang(txbtimkiemkhachhang.Text);
+        }
+
+        private void BtnXuatLsKh_Click(object sender, EventArgs e)
+        {
+            if (!File.Exists("Customer_history.txt")) // If file does not exists
+            {
+                File.Create("Customer_history.txt").Close(); // Create file
+            }
+            System.Diagnostics.Process.Start(@".\Customer_history.txt");
+            ThuNhoFormCha();
+        }
+
+        private async void BtnThemkh_Click(object sender, EventArgs e)
+        {
+            string makh = await new KhachHang().taoMaKh();
+            string tenkh = txbtenkh.Text;
+            string dienthoaikh = txbdienthoaikh.Text;
+            string diachikh = txbdiachikh.Text;
+            DateTime ngaysinhkh = dpngaysinhkh.Value;
+            string emailkh = txbemailkh.Text;
+            DateTime ngaydangky = DateTime.Now;
+            if (string.IsNullOrWhiteSpace(makh) |
+                string.IsNullOrWhiteSpace(tenkh) |
+                string.IsNullOrWhiteSpace(dienthoaikh)|
+                string.IsNullOrWhiteSpace(diachikh) |
+                ngaysinhkh == null
+               )
+            {
+                MessageBox.Show("Vui lòng không bỏ trống những trường có (*)");
+            }
+            else
+            {
+                OptimizedPerformance.SaveHistory(pnNhanvien, "them", dgvnhanvien);
+                String query = "themnhanvien @MANV @MACV @MABP @TENNV @DIENTHOAINV @EMAILNV @DIACHINV @SOTAIKHOANNV @TENDANGNHAP @MATKHAU @NGAYVAOLAM @REQUEST";
+                int res = ConnectDataBase.SessionConnect.executeNonQuery(query, new object[]
+                {
+                    manv,macv,mabp,tennv,dienthoai,email,diachi,sotk, tendangnhap,matkhau,ngayvaolam,"insert"
+                });
+                if (res > 0)
+                {
+                    MessageBox.Show("Thành công");
+                    loadNhanVien("");
+                    btncleartextnhanvien.PerformClick();
+                }
+            }
+        }
     }
 }

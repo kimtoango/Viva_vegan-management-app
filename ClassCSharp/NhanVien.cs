@@ -67,10 +67,24 @@ namespace Viva_vegan.ClassCSharp
         public DateTime Ngayvaolam { get => ngayvaolam; set => ngayvaolam = value; }
         #endregion
         #region Methods
-        public String taoManv()
+        public async Task<string> taoManv()
         {
-            int count = (int)ConnectDataBase.SessionConnect.executeScalar("SELECT COUNT(*) FROM nhanvien")+1;
-            return "NV" + Convert.ToString(count);
+            // lỗi -> solution lấy cột mã nhân viên -> tách 2 số cuối
+            //-> tìm số lớn nhất -> cộng 1 tạo thành mã nv
+            string query = "select manv from nhanvien";
+            string result = "";
+            int max= 0;
+            DataTable table =await ConnectDataBase.SessionConnect.executeQueryAsync(query);
+            foreach(DataRow row in table.Rows)
+            {
+                string manv = row["MANV"].ToString();
+                int i=int.Parse(manv.Substring(2, manv.Length - 2));
+                if (max<=i)
+                {
+                    max = i;
+                }
+            }
+            return "NV" + (max+1).ToString();
         }
         public async Task<DataTable> loadTableNhanVien (String input,String timtheo=null)
         {
@@ -114,5 +128,6 @@ namespace Viva_vegan.ClassCSharp
             return nvs;
         }
         #endregion
+      
     }
 }

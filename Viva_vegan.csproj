@@ -102,7 +102,7 @@
     <Compile Include="ClassCSharp\ConnectDataBase.cs" />
     <Compile Include="ClassCSharp\DoanhThuClass.cs" />
     <Compile Include="ClassCSharp\HoaDon.cs" />
-    <Compile Include="ClassCSharp\KHACHHANG.cs" />
+    <Compile Include="ClassCSharp\KhachHang.cs" />
     <Compile Include="ClassCSharp\KhuVuc.cs" />
     <Compile Include="ClassCSharp\MonAn.cs" />
     <Compile Include="ClassCSharp\NhanVien.cs" />
