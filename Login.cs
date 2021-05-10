@@ -86,6 +86,11 @@ namespace Viva_vegan
                 GreetingForm.Close();
                 new Dashboard().Show();
             }
+            else
+            {
+                GreetingForm.Close();
+                new Login().Show();
+            }
         }
 
         private void LblChuyensangdky_MouseHover(object sender, EventArgs e)
