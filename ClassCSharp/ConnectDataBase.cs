@@ -15,7 +15,7 @@ namespace Viva_vegan.ClassCSharp
         private static String nameDB = "QLNH30-08.mdf";
         //private String stringAvailable = @"Data Source=(Localdb)\MSSQLLocalDB;AttachDbFilename=" + path+@"\"+ nameDB + ";Integrated Security=True";
 
-        private String stringAvailable = @"Data Source=DESKTOP-S418B85\SQLEXPRESS;Initial Catalog=QLNH30-08;Integrated Security=True";
+        private String stringAvailable = @"Data Source=DESKTOP-89RB933\SQL2016;Initial Catalog=QLNH_LATEST-VER-1;Integrated Security=True";
 
         private static ConnectDataBase sessionConnect;
         public static ConnectDataBase SessionConnect

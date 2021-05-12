@@ -1065,7 +1065,6 @@ namespace Viva_vegan.FormDashboard
                 String query = "themnhanvien @MANV @MACV @MABP @TENNV @DIENTHOAINV @EMAILNV @DIACHINV @SOTAIKHOANNV @TENDANGNHAP @MATKHAU @NGAYVAOLAM @REQUEST";
                 int res = ConnectDataBase.SessionConnect.executeNonQuery(query, new object[]
                 {
-                    manv,macv,mabp,tennv,dienthoai,email,diachi,sotk, tendangnhap,matkhau,ngayvaolam,"insert"
                 });
                 if (res > 0)
                 {
