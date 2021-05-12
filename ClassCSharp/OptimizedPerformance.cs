@@ -31,20 +31,15 @@ namespace Viva_vegan.ClassCSharp
             decimal value = valueNeedFormat;
             var format = (NumberFormatInfo)NumberFormatInfo.CurrentInfo.Clone();
             format.CurrencySymbol = "VNĐ ";
-            if (whichDgv == "ma")
+            for (int i=0;i<dgv.Columns.Count;i++)
             {
-                dgv.Columns["giaban"].DefaultCellStyle.FormatProvider = format;
-                dgv.Columns["giaban"].DefaultCellStyle.Format = "c0";
-            }
-            else if (whichDgv == "tu")
-            {
-                dgv.Columns["giabanthucuong"].DefaultCellStyle.FormatProvider = format;
-                dgv.Columns["giabanthucuong"].DefaultCellStyle.Format = "c0";
-            }
-            else if (whichDgv == "kh")
-            {
-                dgv.Columns["tiendatieukh"].DefaultCellStyle.FormatProvider = format;
-                dgv.Columns["tiendatieukh"].DefaultCellStyle.Format = "c0";
+                string headerText = dgv.Columns[i].Name;
+                Console.WriteLine(headerText);
+                if (headerText.Contains("tien")||headerText.Contains("gia"))
+                {
+                    dgv.Columns[i].DefaultCellStyle.FormatProvider = format;
+                    dgv.Columns[i].DefaultCellStyle.Format = "c0";
+                }
             }
             return value.ToString("C0", format);
         }
@@ -98,6 +93,7 @@ namespace Viva_vegan.ClassCSharp
             }
             return normalPass;
         }
+        // Change color if this row has eliminated status
         public static void changeColorRow(DataGridView dgv)
         {
             int colIndex = 0;
@@ -118,7 +114,7 @@ namespace Viva_vegan.ClassCSharp
                 }
                 else
                 {
-                    if (row.Cells[colIndex].Value.ToString()=="elimi")
+                    if (row.Cells[colIndex].Value.ToString() == "elimi")
                     {
                         row.DefaultCellStyle.BackColor = ColorTranslator.FromHtml("#FB8957");
                     }
@@ -145,10 +141,13 @@ namespace Viva_vegan.ClassCSharp
                     {
                         hinh = (byte[])(row[5]);
                     }
+                    string matrangthaimonan = row["matrangthai"].ToString();
+                    string ngayxoamon = row["NGAYXOAMON"].ToString();
+                    ngayxoamon = (!string.IsNullOrWhiteSpace(ngayxoamon)) ? formatDateTime(ngayxoamon) : "";
                     string dvt = row["DVT"].ToString();
                     string mota = row["MOTA"].ToString();
                     decimal giaban = decimal.Parse(row["GIABAN"].ToString());
-                    dgv.Rows.Add(mamon, tenmon, hinh, dvt, mota, giaban);
+                    dgv.Rows.Add(mamon, tenmon, hinh, matrangthaimonan, ngayxoamon, dvt, mota, giaban);
                 }
             }
             else if (whichDgv == "thucuong")
@@ -172,7 +171,7 @@ namespace Viva_vegan.ClassCSharp
                     string ngayxoathucuong = row["NGAYXOATHUCUONG"].ToString();
                     ngayxoathucuong = (!string.IsNullOrWhiteSpace(ngayxoathucuong)) ? formatDateTime(ngayxoathucuong) : "";
                     decimal giabanthucuong = decimal.Parse(row["GIABAN"].ToString());
-                    dgv.Rows.Add(mathucuong, tenthucuong, hinhthucuong, motathucuong,matrangthaithucuong,ngayxoathucuong, dvtthucuong, giabanthucuong);
+                    dgv.Rows.Add(mathucuong, tenthucuong, hinhthucuong, motathucuong, matrangthaithucuong, ngayxoathucuong, dvtthucuong, giabanthucuong);
                 }
             }
             else if (whichDgv == "nhanvien")
@@ -190,8 +189,11 @@ namespace Viva_vegan.ClassCSharp
                     string matkhaunv = row["MATKHAU"].ToString();
                     string ngayvaolam = formatDate(row["NGAYVAOLAM"].ToString());
                     string sotaikhoan = row["SOTAIKHOANNV"].ToString();
+                    string matrangthainv = row["matrangthai"].ToString();
+                    string ngayroikhoi = row["NGAYROIKHOI"].ToString();
+                    ngayroikhoi = (!string.IsNullOrWhiteSpace(ngayroikhoi)) ? formatDateTime(ngayroikhoi) : "";
                     dgv.Rows.Add(
-                        manv, macv, mabp, tennv, dienthoainv, emailnv, diachinv, sotaikhoan, tendangnhapnv, matkhaunv, ngayvaolam
+                        manv, macv, mabp, tennv, dienthoainv, emailnv, diachinv, sotaikhoan, tendangnhapnv, matkhaunv, matrangthainv, ngayvaolam, ngayroikhoi
                         );
                 }
             }
@@ -210,9 +212,11 @@ namespace Viva_vegan.ClassCSharp
                     string maloaikh = row["MALOAIKH"].ToString();
                     string query = "select tenloaikh from loaikh where maloaikh='" + maloaikh + "'";
                     var tenloaikh = await ConnectDataBase.SessionConnect.executeScalarAsync(query);
-                    //string ngaydangky = row["NGAYVAOLAM"].ToString();
+                    string matrangthaikh = row["matrangthai"].ToString();
+                    string ngayhuytk = row["NGAYXOATK"].ToString();
+                    ngayhuytk = (!string.IsNullOrWhiteSpace(ngayhuytk)) ? formatDateTime(ngayhuytk) : "";
                     int rowIndex = dgv.Rows.Add(
-                        makh, tenloaikh.ToString(), tenkh, dienthoai, diachi, ngaysinh, email, diem, tiendatieu
+                        makh, tenloaikh.ToString(), tenkh, dienthoai, diachi, ngaysinh, email,matrangthaikh,ngayhuytk, diem, tiendatieu
                         );
                     dgv.Rows[rowIndex].Tag = maloaikh;
                 }
@@ -226,10 +230,10 @@ namespace Viva_vegan.ClassCSharp
                     string tinhtrangban = row["TINHTRANGBAN"].ToString();
                     string makhuvuc = row["MAKHUVUC"].ToString();
                     string matrangthai = row["MATRANGTHAI"].ToString();
-                    string ngayxoaban =  row["ngayxoaban"].ToString();
+                    string ngayxoaban = row["ngayxoaban"].ToString();
                     ngayxoaban = (!string.IsNullOrWhiteSpace(ngayxoaban)) ? formatDateTime(ngayxoaban) : "";
                     int rowIndex = dgv.Rows.Add(
-                        maban,tenban,tinhtrangban,makhuvuc,matrangthai,ngayxoaban
+                        maban, tenban, tinhtrangban, makhuvuc, matrangthai, ngayxoaban
                         );
                 }
             }
@@ -239,10 +243,10 @@ namespace Viva_vegan.ClassCSharp
                 c.DefaultCellStyle.Font = new Font("Consolas", 14.25F, GraphicsUnit.Pixel);
             }
         }
-        
+
         #endregion
         #region Optimize number of code line
-        public static void disableButton (params Button[] btns)
+        public static void disableButton(params Button[] btns)
         {
             foreach (Button btn in btns)
             {
@@ -290,58 +294,69 @@ namespace Viva_vegan.ClassCSharp
         }
         public static void SaveHistory(Control con, string action, DataGridView dgv = null)
         {
-            List<string> dataInputList = new List<string>();
-            string dateTimeNow = "Vào ngày: " + DateTime.Now.ToLongDateString() + " lúc " + DateTime.Now.ToLongTimeString();
             String content = "\n";
-            foreach (Control c in con.Controls)
+            string dateTimeNow = "Vào ngày: " + DateTime.Now.ToLongDateString() + " lúc " + DateTime.Now.ToLongTimeString();
+            List<string> oldDataList = new List<string>();
+            if (!action.Contains("xoa"))
             {
-                if (c is TextBox)
+                List<string> dataInputList = new List<string>();
+                foreach (Control c in con.Controls)
                 {
-                    dataInputList.Add(((TextBox)c).Tag.ToString() + ": " + ((TextBox)c).Text);
+                    if (c is TextBox)
+                    {
+                        dataInputList.Add(((TextBox)c).Tag.ToString() + ": " + ((TextBox)c).Text);
+                    }
+                    else if (c is RichTextBox)
+                    {
+                        dataInputList.Add(((RichTextBox)c).Tag.ToString() + ": " + ((RichTextBox)c).Text);
+                    }
+                    else if (c is ComboBox)
+                    {
+                        dataInputList.Add(((ComboBox)c).Tag.ToString() + ": " + ((ComboBox)c).Text);
+                    }
+                    else if (c is DateTimePicker)
+                    {
+                        dataInputList.Add(((DateTimePicker)c).Tag.ToString() + ": " + ((DateTimePicker)c).Value.ToLongDateString());
+                    }
                 }
-                else if (c is RichTextBox)
+                if (action.Contains("them"))
                 {
-                    dataInputList.Add(((RichTextBox)c).Tag.ToString() + ": " + ((RichTextBox)c).Text);
+                    content = ClassCSharp.User.Manv + " đã thêm:\n\t";
+                    foreach (string item in dataInputList)
+                    {
+                        content += item + "||";
+                    }
+                    content += "\n\t" + dateTimeNow;
                 }
-                else if (c is ComboBox)
+                else if (action.Contains("sua"))
                 {
-                    dataInputList.Add(((ComboBox)c).Tag.ToString() + ": " + ((ComboBox)c).Text);
-                }
-                else if (c is DateTimePicker)
-                {
-                    dataInputList.Add(((DateTimePicker)c).Tag.ToString() + ": " + ((DateTimePicker)c).Value.ToLongDateString());
+                    DataGridViewRow row = dgv.Rows[dgv.CurrentCell.RowIndex];
+                    foreach (DataGridViewCell cell in row.Cells)
+                    {
+                        string colname = dgv.Columns[cell.ColumnIndex].HeaderText;
+                        string value = cell.Value.ToString();
+                        oldDataList.Add(colname + ": " + value);
+                    }
+                    content = ClassCSharp.User.Manv + " đã sửa: \n\t" + fromListToString(oldDataList)
+                        + "\n\t => \n\t" + fromListToString(dataInputList);
+                    content += "\n\t" + dateTimeNow;
                 }
             }
-            foreach (string s in dataInputList)
-            {
-                Console.WriteLine(s);
-            }
-            if (action.Contains("them"))
-            {
-                content = ClassCSharp.User.Manv + " đã thêm:\n\t";
-                foreach (string item in dataInputList)
-                {
-                    content += item + "||";
-                }
-                content += "\n\t" + dateTimeNow;
-            }
-            else if (action.Contains("sua"))
-            {
-                DataGridViewRow row = dgv.Rows[dgv.CurrentCell.RowIndex];
-                List<string> oldDataList = new List<string>();
-                foreach (DataGridViewCell cell in row.Cells)
-                {
-                    string colname = dgv.Columns[cell.ColumnIndex].HeaderText;
-                    string value = cell.Value.ToString();
-                    oldDataList.Add(colname + ": " + value);
-                }
-                content = ClassCSharp.User.Manv + " đã sửa: \n\t" + fromListToString(oldDataList)
-                    + "\n\t => \n\t" + fromListToString(dataInputList);
-                content += "\n\t" + dateTimeNow;
-            }
+
             else if (action.Contains("xoa"))
             {
-                content = ClassCSharp.User.Manv + " đã xóa:\n\t" + fromListToString(dataInputList);
+                string madoituong="";
+
+                DataGridViewRow row = dgv.Rows[dgv.CurrentCell.RowIndex];
+                if (con.Tag.ToString() == "nv")
+                {
+                    madoituong = row.Cells["manv"].Value.ToString();
+                }
+                else
+                {
+                    madoituong = row.Cells["makh"].Value.ToString();
+                }
+                content = User.Manv + " đã xóa:\n\t" + madoituong;
                 content += "\n\t" + dateTimeNow;
             }
             //System.IO.File.WriteLine(@"C:\Users\Public\TestFolder\WriteText.txt", text);
