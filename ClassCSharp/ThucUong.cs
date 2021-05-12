@@ -16,8 +16,8 @@ namespace Viva_vegan.ClassCSharp
         private String mota;
         private String dvt;
         private byte[] hinh;
-        private int sl;
-
+        private string matrangthai;
+        private string ngayxoathucuong;
         public ThucUong(String mathucuong)
         {
             String query = "select * from thucuong where mathucuong='" + mathucuong +
@@ -49,15 +49,9 @@ namespace Viva_vegan.ClassCSharp
             }
 
         }
-        public ThucUong(DataRow row, Boolean isBestSeller)
-        {
-            this.Mathucuong = row[0].ToString();
-            this.Tenthucuong = row[1].ToString();
-            this.Sl = Convert.ToInt32(row[2]);
-        }
         public ThucUong()
         { }
-        public ThucUong(string mathucuong, string tenthucuong, int giaban, string mota, string dvt, byte[] hinh)
+        public ThucUong(string mathucuong, string tenthucuong, int giaban, string mota, string dvt, byte[] hinh, string matrangthai, string ngayxoathucuong)
         {
             this.mathucuong = mathucuong;
             this.tenthucuong = tenthucuong;
@@ -65,6 +59,8 @@ namespace Viva_vegan.ClassCSharp
             this.mota = mota;
             this.dvt = dvt;
             this.hinh = hinh;
+            this.Matrangthai = matrangthai;
+            this.Ngayxoathucuong = ngayxoathucuong;
         }
         public ThucUong(DataRow row)
         {
@@ -97,7 +93,8 @@ namespace Viva_vegan.ClassCSharp
         public string Dvt { get => dvt; set => dvt = value; }
         public string Mathucuong { get => mathucuong; set => mathucuong = value; }
         public string Tenthucuong { get => tenthucuong; set => tenthucuong = value; }
-        public int Sl { get => sl; set => sl = value; }
+        public string Matrangthai { get => matrangthai; set => matrangthai = value; }
+        public string Ngayxoathucuong { get => ngayxoathucuong; set => ngayxoathucuong = value; }
 
         #region Methods
         public List<ThucUong> GetThucUongs()
@@ -117,7 +114,9 @@ namespace Viva_vegan.ClassCSharp
                     Convert.ToInt32(row[4]),
                     row[2].ToString(),
                     row[3].ToString(),
-                    image
+                    image,
+                    row["matrangthai"].ToString(),
+                    row["NGAYXOATHUCUONG"].ToString()
                     ));
                 }
                 else
@@ -128,7 +127,9 @@ namespace Viva_vegan.ClassCSharp
                     Convert.ToInt32(row[4]),
                     row[2].ToString(),
                     row[3].ToString(),
-                    (byte[])(row[5])
+                    (byte[])(row[5]),
+                    row["matrangthai"].ToString(),
+                    row["NGAYXOATHUCUONG"].ToString()
                     ));
                 }
             }
@@ -156,7 +157,9 @@ namespace Viva_vegan.ClassCSharp
                     Convert.ToInt32(row[4]),
                     row[2].ToString(),
                     row[3].ToString(),
-                    image
+                    image,
+                    row["matrangthai"].ToString(),
+                    row["NGAYXOATHUCUONG"].ToString()
                     ));
                 }
                 else
@@ -167,18 +170,13 @@ namespace Viva_vegan.ClassCSharp
                     Convert.ToInt32(row[4]),
                     row[2].ToString(),
                     row[3].ToString(),
-                    (byte[])(row[5])
+                    (byte[])(row[5]),
+                    row["matrangthai"].ToString(),
+                    row["NGAYXOATHUCUONG"].ToString()
                     ));
                 }
             }
             return list;
-        }
-        public int xoaThucUong(String mathucuong)
-        {
-            String query = "delete from thucuong where mathucuong ='" + mathucuong +
-                "'";
-            int result = ConnectDataBase.SessionConnect.executeNonQuery(query);
-            return result;
         }
         public List<ThucUong> getThucUongTheoTuKhoa(String tukhoa, String timtheo = null)
         {

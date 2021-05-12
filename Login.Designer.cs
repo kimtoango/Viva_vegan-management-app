@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Login));
             this.pnBannerLeft = new System.Windows.Forms.Panel();
+            this.panel3 = new System.Windows.Forms.Panel();
             this.pnline1 = new XanderUI.XUIGradientPanel();
             this.label3 = new System.Windows.Forms.Label();
             this.btnthoat = new FontAwesome.Sharp.IconButton();
@@ -43,11 +44,11 @@
             this.lblmatkhau = new System.Windows.Forms.Label();
             this.txtpassword = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.panel3 = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.pnBannerLeft.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel2.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnBannerLeft
@@ -56,7 +57,6 @@
             this.pnBannerLeft.Controls.Add(this.panel3);
             this.pnBannerLeft.Controls.Add(this.pnline1);
             this.pnBannerLeft.Controls.Add(this.label3);
-            this.pnBannerLeft.Controls.Add(this.btnthoat);
             this.pnBannerLeft.Controls.Add(this.label1);
             this.pnBannerLeft.Controls.Add(this.pictureBox1);
             this.pnBannerLeft.Dock = System.Windows.Forms.DockStyle.Left;
@@ -64,6 +64,15 @@
             this.pnBannerLeft.Name = "pnBannerLeft";
             this.pnBannerLeft.Size = new System.Drawing.Size(360, 485);
             this.pnBannerLeft.TabIndex = 0;
+            // 
+            // panel3
+            // 
+            this.panel3.BackgroundImage = global::Viva_vegan.Properties.Resources.logo_transparent2;
+            this.panel3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.panel3.Location = new System.Drawing.Point(75, 0);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(285, 112);
+            this.panel3.TabIndex = 5;
             // 
             // pnline1
             // 
@@ -98,7 +107,7 @@
             this.btnthoat.IconChar = FontAwesome.Sharp.IconChar.Times;
             this.btnthoat.IconColor = System.Drawing.Color.Black;
             this.btnthoat.IconSize = 25;
-            this.btnthoat.Location = new System.Drawing.Point(0, 0);
+            this.btnthoat.Location = new System.Drawing.Point(285, 0);
             this.btnthoat.Name = "btnthoat";
             this.btnthoat.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
             this.btnthoat.Rotation = 0D;
@@ -244,19 +253,11 @@
             this.label2.TabIndex = 3;
             this.label2.Text = "Tên đăng nhập";
             // 
-            // panel3
-            // 
-            this.panel3.BackgroundImage = global::Viva_vegan.Properties.Resources.logo_transparent2;
-            this.panel3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.panel3.Location = new System.Drawing.Point(75, 0);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(285, 112);
-            this.panel3.TabIndex = 5;
-            // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(155)))), ((int)(((byte)(136)))), ((int)(((byte)(0)))));
             this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.panel1.Controls.Add(this.btnthoat);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(360, 0);
             this.panel1.Name = "panel1";
@@ -284,6 +285,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
